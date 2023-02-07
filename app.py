@@ -5,7 +5,7 @@ model = RWKV(
     "pytorch(cpu/gpu)",
     runtimedtype=torch.float32,
     useGPU=False,
-    dtype=torch.float3
+    dtype=torch.float32
 )
 import gradio as gr
 
