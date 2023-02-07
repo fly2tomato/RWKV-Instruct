@@ -19,7 +19,7 @@ def predict(input, history=None):
 
 def freegen(input):
     model.resetState()
-    return model.loadContext(newctx=input)["output"]
+    return input,model.loadContext(newctx=input)["output"]
 
 with gr.Blocks() as demo:
     with gr.Tab("Chatbot"):
@@ -33,6 +33,6 @@ with gr.Blocks() as demo:
     with gr.Tab("Free Gen"):
         with gr.Row():
             input = gr.Textbox(show_label=False, placeholder="Enter text and press enter").style(container=False)
-            outtext = gr.Textbox()
+            outtext = gr.Textbox(show_label=False)
         input.submit(freegen,input,outtext)
 demo.launch()
