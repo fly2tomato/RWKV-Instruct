@@ -1,10 +1,10 @@
 from rwkvstic.load import RWKV
 import torch
 model = RWKV(
-    "https://huggingface.co/BlinkDL/rwkv-4-pile-3b/resolve/main/RWKV-4-Pile-3B-20221110-ctx4096.pth",
+    "https://huggingface.co/BlinkDL/rwkv-4-pile-1b5/resolve/main/RWKV-4-Pile-1B5-Instruct-test1-20230124.pth",
     "pytorch(cpu/gpu)",
     runtimedtype=torch.bfloat16,
-    useGPU=False,
+    useGPU=torch.cuda.is_available(),
     dtype=torch.bfloat16
 )
 import gradio as gr
