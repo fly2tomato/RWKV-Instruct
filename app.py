@@ -16,8 +16,8 @@ def predict(input, history=None):
 with gr.Blocks() as demo:
     chatbot = gr.Chatbot()
     state = model.emptyState
-    state = model.loadContext(newctx="User: ")
-
+    ctx, state = model.loadContext(newctx="User: ")
+    state = gr.State(state)
     with gr.Row():
         txt = gr.Textbox(show_label=False, placeholder="Enter text and press enter").style(container=False)
 
