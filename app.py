@@ -12,16 +12,15 @@ import gradio as gr
 
 def predict(input, history=None):
     model.setState(history)
-    model.loadContext(newctx=f"{input}\n\nBot: ")
-    r = model.forward(number=100,stopStrings=["User: "])
+    model.loadContext(newctx=f"Prompt: {input}\n\nExpert Long Detailed Response: ")
+    r = model.forward(number=100,stopStrings=["\n\nPrompt"])
     rr = [(input,r["output"])]
-    return rr, r["state"]
+    return [*history[0],*rr], [[*history[0],*rr],r["state"]]
 
 with gr.Blocks() as demo:
     chatbot = gr.Chatbot()
     state = model.emptyState
-    ctx, state = model.loadContext(newctx="User: ")
-    state = gr.State(state)
+    state = gr.State([[],state])
     with gr.Row():
         txt = gr.Textbox(show_label=False, placeholder="Enter text and press enter").style(container=False)
 
