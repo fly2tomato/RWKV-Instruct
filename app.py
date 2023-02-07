@@ -19,8 +19,8 @@ def predict(input, history=None):
 
 def freegen(input):
     model.resetState()
-    return input,model.loadContext(newctx=input)["output"]
-
+    model.loadContext(newctx=input)
+    return model.forward(number=100)["output"]
 with gr.Blocks() as demo:
     with gr.Tab("Chatbot"):
         chatbot = gr.Chatbot()
