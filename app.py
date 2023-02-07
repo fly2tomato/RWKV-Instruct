@@ -3,9 +3,9 @@ import torch
 model = RWKV(
     "https://huggingface.co/BlinkDL/rwkv-4-pile-1b5/resolve/main/RWKV-4-Pile-1B5-Instruct-test1-20230124.pth",
     "pytorch(cpu/gpu)",
-    runtimedtype=torch.bfloat16,
+    runtimedtype=torch.float32,
     useGPU=torch.cuda.is_available(),
-    dtype=torch.bfloat16
+    dtype=torch.float32
 )
 import gradio as gr
 
