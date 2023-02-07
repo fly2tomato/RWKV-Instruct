@@ -11,7 +11,7 @@ import gradio as gr
 
 
 def predict(input, history=None):
-    model.setState(history)
+    model.setState(history[1])
     model.loadContext(newctx=f"Prompt: {input}\n\nExpert Long Detailed Response: ")
     r = model.forward(number=100,stopStrings=["\n\nPrompt"])
     rr = [(input,r["output"])]
