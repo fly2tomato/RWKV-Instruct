@@ -17,13 +17,22 @@ def predict(input, history=None):
     rr = [(input,r["output"])]
     return [*history[0],*rr], [[*history[0],*rr],r["state"]]
 
+def freegen(input):
+    model.resetState()
+    return model.loadContext(newctx=input)["output"]
+
 with gr.Blocks() as demo:
-    chatbot = gr.Chatbot()
-    state = model.emptyState
-    state = gr.State([[],state])
-    with gr.Row():
-        txt = gr.Textbox(show_label=False, placeholder="Enter text and press enter").style(container=False)
-
-    txt.submit(predict, [txt, state], [chatbot, state])
-
+    with gr.Tab("Chatbot"):
+        chatbot = gr.Chatbot()
+        state = model.emptyState
+        state = gr.State([[],state])
+        with gr.Row():
+            txt = gr.Textbox(show_label=False, placeholder="Enter text and press enter").style(container=False)
+    
+        txt.submit(predict, [txt, state], [chatbot, state])
+    with gr.Tab("Free Gen"):
+        with gr.Row():
+            input = gr.Textbox(show_label=False, placeholder="Enter text and press enter").style(container=False)
+            outtext = gr.Textbox()
+        input.submit(freegen,input,outtext)
 demo.launch()
