@@ -14,9 +14,7 @@ def predict(input, history=None):
     model.setState(history)
     model.loadContext(newctx=f"{input}\n\nBot: ")
     r = model.forward(number=100,stopStrings=["User: "])
-    rr = r["output"].split("<|endoftext|>")
-    rr = [(rr[i], rr[i+1]) for i in range(0, len(rr)-1, 2)]  # convert to tuples of list
-    
+    rr = [(input,r["output"])]
     return rr, r["state"]
 
 with gr.Blocks() as demo:
