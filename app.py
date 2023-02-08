@@ -122,9 +122,10 @@ def chat(
             torch.cuda.empty_cache()
         model = get_model()
         
-    if len(history[0]) == 0:
+    if len(history) == 0:
         # no history, so lets reset chat state
         model.resetState()
+        history = [[],model.emptyState]
     else:
         model.setState(history[1])
     max_new_tokens = int(max_new_tokens)
