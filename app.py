@@ -235,7 +235,7 @@ chatiface = gr.Interface(
 demo = gr.TabbedInterface(
 
     [iface,chatiface],["Generative","Chatbot"],
-    title="RWKV-4 (7b Instruct, 8-Bit [cpu/for now])",
+    title="RWKV-4 (7b Instruct)",
     
     )
 
