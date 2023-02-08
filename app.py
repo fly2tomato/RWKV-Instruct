@@ -23,7 +23,11 @@ def to_md(text):
 def get_model():
     model = None
     model = RWKV(
-        "https://huggingface.co/Hazzzardous/RWKV-8Bit/resolve/main/RWKV-4-Pile-7B-Instruct.pqth",
+        "https://huggingface.co/BlinkDL/rwkv-4-pile-1b5/resolve/main/RWKV-4-Pile-1B5-Instruct-test1-20230124.pth",
+        "pytorch(cpu/gpu)",
+        runtimedtype=torch.float32,
+        useGPU=torch.cuda.is_available(),
+        dtype=torch.float32
     )
     return model
 
@@ -118,10 +122,11 @@ def chat(
             torch.cuda.empty_cache()
         model = get_model()
         
-    if len(history) == 0:
+    if len(history[0]) == 0:
         # no history, so lets reset chat state
         model.resetState()
-        
+    else:
+        model.setState(history[1])
     max_new_tokens = int(max_new_tokens)
     temperature = float(temperature)
     top_p = float(top_p)
@@ -143,8 +148,8 @@ def chat(
     model.loadContext(newctx=prompt)
     generated_text = ""
     done = False
-    generated_text = model.forward(number=max_new_tokens, stopStrings=stop,temp=temperature,top_p_usual=top_p)["output"]
-
+    gen = model.forward(number=max_new_tokens, stopStrings=stop,temp=temperature,top_p_usual=top_p)
+    generated_text = gen["output"]
     generated_text = generated_text.lstrip("\n ")
     print(f"{generated_text}")
     
@@ -154,8 +159,8 @@ def chat(
             generated_text = generated_text[:generated_text.find(stop_word)]
     
     gc.collect()
-    history.append((prompt, generated_text))
-    return history,history
+    history[0].append((prompt, generated_text))
+    return history[0],[history[0],gen["state"]]
 
 
 examples = [
