@@ -217,7 +217,7 @@ chatiface = gr.Interface(
     fn=chat,
     description='''<p>RNN With Transformer-level LLM Performance. (<a href='https://github.com/BlinkDL/RWKV-LM'>github</a>)
     According to the author: "It combines the best of RNN and transformers - great performance, fast inference, saves VRAM, fast training, "infinite" ctx_len, and free sentence embedding"
-    <p>Thanks to <a href='https://www.rftcapital.com'>RFT Capital</a> for donating compute capability for our experiments. Additional thanks to the author of the <a href="https://github.com/harrisonvanderbyl/rwkvstic">rwkvstic</a> library.</p>''',
+    <p>Thanks to https://huggingface.co/spaces/yahma/rwkv for the basis for this space''',
     allow_flagging="never",
     inputs=[
         gr.Textbox(lines=5, label="Message"),  # prompt
