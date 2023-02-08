@@ -23,11 +23,11 @@ def to_md(text):
 def get_model():
     model = None
     model = RWKV(
-        "https://huggingface.co/BlinkDL/rwkv-4-pile-1b5/resolve/main/RWKV-4-Pile-1B5-Instruct-test1-20230124.pth",
+        "https://huggingface.co/BlinkDL/rwkv-4-pile-7b/resolve/main/RWKV-4-Pile-7B-Instruct-test1-20230124.pth",
         "pytorch(cpu/gpu)",
-        runtimedtype=torch.float32,
+        runtimedtype=torch.bfloat16,
         useGPU=torch.cuda.is_available(),
-        dtype=torch.float32
+        dtype=torch.bfloat16
     )
     return model
 
