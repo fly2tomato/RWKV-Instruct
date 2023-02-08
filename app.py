@@ -64,7 +64,7 @@ def infer(
     # Clear model state for generative mode
     model.resetState()
     if (mode == "Q/A"):
-        prompt = f"Expert Questions & Helpful Answers\nAsk Research Experts\nQuestion:\n{prompt}\n\nFull Answer:"
+        prompt = f"Q:\n{prompt}\n\nExpert Long Detailed Response:"
     
     print(f"PROMPT ({datetime.now()}):\n-------\n{prompt}")
     print(f"OUTPUT ({datetime.now()}):\n-------\n")
@@ -142,10 +142,10 @@ def chat(
     print(f"CHAT ({datetime.now()}):\n-------\n{prompt}")
     print(f"OUTPUT ({datetime.now()}):\n-------\n")
     # Load prompt
-    model.loadContext(newctx=prompt)
+    model.loadContext(newctx="\nUser: "+prompt+"\n\nBot: ")
     generated_text = ""
     done = False
-    gen = model.forward(number=max_new_tokens, stopStrings=stop,temp=temperature,top_p_usual=top_p)
+    gen = model.forward(number=max_new_tokens, stopStrings=stop+["User"],temp=temperature,top_p_usual=top_p)
     generated_text = gen["output"]
     generated_text = generated_text.lstrip("\n ")
     print(f"{generated_text}")
