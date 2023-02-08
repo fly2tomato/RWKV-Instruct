@@ -23,11 +23,7 @@ def to_md(text):
 def get_model():
     model = None
     model = RWKV(
-        "https://huggingface.co/BlinkDL/rwkv-4-pile-1b5/resolve/main/RWKV-4-Pile-1B5-Instruct-test1-20230124.pth",
-        "pytorch(cpu/gpu)",
-        runtimedtype=torch.float32,
-        useGPU=torch.cuda.is_available(),
-        dtype=torch.float32
+        "https://huggingface.co/Hazzzardous/RWKV-8Bit/resolve/main/RWKV-4-Pile-7B-Instruct.pqth",
     )
     return model
 
@@ -233,7 +229,7 @@ chatiface = gr.Interface(
 demo = gr.TabbedInterface(
 
     [iface,chatiface],["Generative","Chatbot"],
-    title="RWKV-4 (1.5b Instruct)",
+    title="RWKV-4 (7b Instruct, 8-Bit [cpu/for now])",
     
     )
 
