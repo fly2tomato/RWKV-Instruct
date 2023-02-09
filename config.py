@@ -18,15 +18,15 @@ quantized = {
 # [File size: 3.0GB]
 
 
-# config = {
-#     "path":"https://huggingface.co/BlinkDL/rwkv-4-pile-7b/resolve/main/RWKV-4-Pile-7B-Instruct-test1-20230124.pth",
-#     "mode":TORCH,
-#     "runtimedtype":torch.bfloat16,
-#     "useGPU":torch.cuda.is_available(),
-#     "dtype":torch.bfloat16
-# }
+config = {
+    "path":"https://huggingface.co/BlinkDL/rwkv-4-pile-7b/resolve/main/RWKV-4-Pile-7B-Instruct-test1-20230124.pth",
+    "mode":TORCH,
+    "runtimedtype":torch.bfloat16,
+    "useGPU":torch.cuda.is_available(),
+    "dtype":torch.bfloat16
+}
 
-# title = "RWKV-4 (7B Instruct)"
+title = "RWKV-4 (7B Instruct)"
 
 # RWKV 1B5 instruct model quantized
 # Approximate
@@ -56,8 +56,8 @@ quantized = {
 # [Vram usage: 15.0GB]
 # [File size: 15.0GB]
 
-config = {
-    "path": "https://huggingface.co/Hazzzardous/RWKV-8Bit/resolve/main/RWKV-4-Pile-14B-20230204-7324.pqth"
-}
+# config = {
+#     "path": "https://huggingface.co/Hazzzardous/RWKV-8Bit/resolve/main/RWKV-4-Pile-14B-20230204-7324.pqth"
+# }
 
-title = "RWKV-4 (14b 94% trained, not yet instruct tuned, 8-Bit)"
+# title = "RWKV-4 (14b 94% trained, not yet instruct tuned, 8-Bit)"
