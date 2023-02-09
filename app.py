@@ -31,7 +31,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 desc = '''<p>RNN with Transformer-level LLM Performance (<a href='https://github.com/BlinkDL/RWKV-LM'>github</a>).
     According to the author: "It combines the best of RNN and transformers - great performance, fast inference, saves VRAM, fast training, "infinite" ctx_len, and free sentence embedding."'''
 
-thanks = '''<p>Thanks to <a href='https://www.rftcapital.com'>RFT Capital</a> for donating compute capability for our experiments. Additional thanks to the author of the <a href="https://github.com/harrisonvanderbyl/rwkvstic">rwkvstic</a> library.</p>'''
+thanks = '''<p>Thanks to <a href='https://github.com/gururise/rwkv_gradio'>Gururise</a> for this template</p>'''
 
 
 def to_md(text):
@@ -95,7 +95,7 @@ def infer(
     done = False
     with torch.no_grad():
         for _ in range(max_new_tokens):
-            char = model.forward(stopStrings=stop, temp=temperature, top_p_usual=top_p)[
+            char = model.forward(stopStrings=stop, temp=temperature, top_p_usual=top_p, end_adj=end_adj)[
                 "output"]
             print(char, end='', flush=True)
             generated_text += char
