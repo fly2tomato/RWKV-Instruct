@@ -85,7 +85,13 @@ def infer(
     # Clear model state for generative mode
     model.resetState()
     if (mode == "Q/A"):
-        prompt = f"Ask Expert\n\nQuestion:\n{prompt}\n\nExpert Full Answer:\n"
+        prompt = f"\nQ: {prompt}\n\nA:"
+    if (mode == "ELDR"):
+        prompt = f"\n{prompt}\n\nExpert Long Detailed Response:"
+    if (mode == "EFA"):
+        prompt = f'\nAsk Expert\n\nQuestion:\n{prompt}\n\nExpert Full Answer:\n'
+    if (mode == "BFR"):
+        prompt = f"Task given:\n\n{prompt}\n\nBest Full Response:"
 
     print(f"PROMPT ({datetime.now()}):\n-------\n{prompt}")
     print(f"OUTPUT ({datetime.now()}):\n-------\n")
@@ -244,7 +250,7 @@ iface = gr.Interface(
     allow_flagging="never",
     inputs=[
         gr.Textbox(lines=20, label="Prompt"),  # prompt
-        gr.Radio(["generative", "Q/A"],
+        gr.Radio(["generative", "Q/A","ELDR","EFR","BFR"],
                  value="generative", label="Choose Mode"),
         gr.Slider(1, 256, value=40),  # max_tokens
         gr.Slider(0.0, 1.0, value=0.8),  # temperature
