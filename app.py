@@ -249,7 +249,7 @@ iface = gr.Interface(
         gr.Slider(1, 256, value=40),  # max_tokens
         gr.Slider(0.0, 1.0, value=0.8),  # temperature
         gr.Slider(0.0, 1.0, value=0.85),  # top_p
-        gr.Slider(-999, 0.0, value=0.0)  # end_adj
+        gr.Slider(-999, 0.0, value=0.0),  # end_adj
         gr.Textbox(lines=1, value="<|endoftext|>")  # stop
     ],
     outputs=gr.Textbox(label="Generated Output", lines=25),
