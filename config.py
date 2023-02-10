@@ -19,14 +19,14 @@ quantized = {
 
 
 config = {
-    "path":"https://huggingface.co/BlinkDL/rwkv-4-pile-7b/resolve/main/RWKV-4-Pile-7B-Instruct-test1-20230124.pth",
+    "path":"https://huggingface.co/BlinkDL/rwkv-4-pile-7b/resolve/main/RWKV-4-Pile-7B-Instruct-test2-20230209.pth",
     "mode":TORCH,
     "runtimedtype":torch.bfloat16,
     "useGPU":torch.cuda.is_available(),
     "dtype":torch.bfloat16
 }
 
-title = "RWKV-4 (7B Instruct)"
+title = "RWKV-4 (7B Instruct v2)"
 
 # RWKV 1B5 instruct model quantized
 # Approximate
