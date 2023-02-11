@@ -56,8 +56,8 @@ def infer(
         max_new_tokens=10,
         temperature=0.1,
         top_p=1.0,
-        end_adj=0.0,
         stop="<|endoftext|>",
+        end_adj=0.0,
         seed=42,
 ):
     global model
@@ -75,8 +75,8 @@ def infer(
     stop = [x.strip(' ') for x in stop.split(',')]
     seed = seed
 
-    assert 1 <= max_new_tokens <= 384
-    assert 0.0 <= temperature <= 1.0
+    assert 1 <= max_new_tokens <= 512
+    assert 0.0 <= temperature <= 5.0
     assert 0.0 <= top_p <= 1.0
 
     temperature = max(0.05, temperature)
