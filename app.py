@@ -46,7 +46,8 @@ def get_model():
     return model
 
 
-model = None
+model = get_model()
+
 
 
 def infer(
@@ -126,12 +127,29 @@ def infer(
 
     gc.collect()
     yield generated_text
+username = "USER"
+intro = f'''The following is a verbose and detailed conversation between an AI assistant called FRITZ, and a human user called USER. FRITZ is intelligent, knowledgeable, wise and polite.
 
+    {username}: What year was the french revolution?
+    FRITZ: The French Revolution started in 1789, and lasted 10 years until 1799.
+    {username}: 3+5=?
+    FRITZ: The answer is 8.
+    {username}: What year did the Berlin Wall fall?
+    FRITZ: The Berlin wall stood for 28 years and fell in 1989.
+    {username}: solve for a: 9-a=2
+    FRITZ: The answer is a=7, because 9-7 = 2.
+    {username}: wat is lhc
+    FRITZ: The Large Hadron Collider (LHC) is a high-energy particle collider, built by CERN, and completed in 2008. It was used to confirm the existence of the Higgs boson in 2012.
+    {username}: Tell me about yourself.
+    FRITZ: My name is Fritz. I am an RNN based Large Language Model (LLM).
+    '''
 
+model.loadContext(intro)
+chatState = model.getState().clone()
+model.resetState()
 def chat(
         prompt,
         history,
-        username,
         max_new_tokens=10,
         temperature=0.1,
         top_p=1.0,
@@ -151,31 +169,17 @@ def chat(
     username = username.strip()
     username = username or "USER"
 
-    intro = f'''The following is a verbose and detailed conversation between an AI assistant called FRITZ, and a human user called USER. FRITZ is intelligent, knowledgeable, wise and polite.
-
-    {username}: What year was the french revolution?
-    FRITZ: The French Revolution started in 1789, and lasted 10 years until 1799.
-    {username}: 3+5=?
-    FRITZ: The answer is 8.
-    {username}: What year did the Berlin Wall fall?
-    FRITZ: The Berlin wall stood for 28 years and fell in 1989.
-    {username}: solve for a: 9-a=2
-    FRITZ: The answer is a=7, because 9-7 = 2.
-    {username}: wat is lhc
-    FRITZ: The Large Hadron Collider (LHC) is a high-energy particle collider, built by CERN, and completed in 2008. It was used to confirm the existence of the Higgs boson in 2012.
-    {username}: Tell me about yourself.
-    FRITZ: My name is Fritz. I am an RNN based Large Language Model (LLM).
-    '''
+    
 
     if len(history) == 0:
         # no history, so lets reset chat state
-        model.resetState()
+        model.setState(chatState)
         history = [[], model.emptyState]
         print("reset chat state")
     else:
         if (history[0][0][0].split(':')[0] != username):
-            model.resetState()
-            history = [[], model.emptyState]
+            model.setState(chatState)
+            history = [[], model.chatState]
             print("username changed, reset state")
         else:
             model.setState(history[1])
@@ -186,8 +190,8 @@ def chat(
     top_p = float(top_p)
     seed = seed
 
-    assert 1 <= max_new_tokens <= 384
-    assert 0.0 <= temperature <= 1.0
+    assert 1 <= max_new_tokens <= 512
+    assert 0.0 <= temperature <= 3.0
     assert 0.0 <= top_p <= 1.0
 
     temperature = max(0.05, temperature)
@@ -197,13 +201,13 @@ def chat(
     print(f"OUTPUT ({datetime.now()}):\n-------\n")
     # Load prompt
 
-    model.loadContext(newctx=intro+prompt)
+    model.loadContext(newctx=prompt)
 
     out = model.forward(number=max_new_tokens, stopStrings=[
                         "<|endoftext|>", username+":"], temp=temperature, top_p_usual=top_p)
 
     generated_text = out["output"].lstrip("\n ")
-    generated_text = generated_text.rstrip("USER:")
+    generated_text = generated_text.rstrip(username+":")
     print(f"{generated_text}")
 
     gc.collect()
@@ -251,12 +255,13 @@ iface = gr.Interface(
     inputs=[
         gr.Textbox(lines=20, label="Prompt"),  # prompt
         gr.Radio(["generative", "Q/A","ELDR","EFR","BFR"],
-                 value="generative", label="Choose Mode"),
-        gr.Slider(1, 256, value=40),  # max_tokens
-        gr.Slider(0.0, 1.0, value=0.8),  # temperature
+                 value="ELDR", label="Choose Mode"),
+        gr.Slider(1, 512, value=40),  # max_tokens
+        gr.Slider(0.0, 5.0, value=1.0),  # temperature
         gr.Slider(0.0, 1.0, value=0.85),  # top_p
+        gr.Textbox(lines=1, value="<|endoftext|>"),  # stop
         gr.Slider(-999, 0.0, value=0.0),  # end_adj
-        gr.Textbox(lines=1, value="<|endoftext|>")  # stop
+       
     ],
     outputs=gr.Textbox(label="Generated Output", lines=25),
     examples=examples,
@@ -270,8 +275,6 @@ chatiface = gr.Interface(
     inputs=[
         gr.Textbox(lines=5, label="Message"),  # prompt
         "state",
-        gr.Text(lines=1, value="USER", label="Your Name",
-                placeholder="Enter your Name"),
         gr.Slider(1, 256, value=60),  # max_tokens
         gr.Slider(0.0, 1.0, value=0.8),  # temperature
         gr.Slider(0.0, 1.0, value=0.85)  # top_p
@@ -282,7 +285,7 @@ chatiface = gr.Interface(
 
 demo = gr.TabbedInterface(
 
-    [iface, chatiface], ["Generative", "Chatbot"],
+    [iface, chatiface], ["ELDR", "Chatbot"],
     title=title,
 
 )
