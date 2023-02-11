@@ -145,7 +145,7 @@ intro = f'''The following is a verbose and detailed conversation between an AI a
     '''
 
 model.loadContext(newctx=intro)
-chatState = model.getState().clone()
+chatState = model.getState()
 model.resetState()
 def chat(
         prompt,
