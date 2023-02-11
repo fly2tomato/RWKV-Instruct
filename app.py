@@ -144,7 +144,7 @@ intro = f'''The following is a verbose and detailed conversation between an AI a
     FRITZ: My name is Fritz. I am an RNN based Large Language Model (LLM).
     '''
 
-model.loadContext(intro)
+model.loadContext(newctx=intro)
 chatState = model.getState().clone()
 model.resetState()
 def chat(
