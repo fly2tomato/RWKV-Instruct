@@ -156,6 +156,7 @@ def chat(
         seed=42,
 ):
     global model
+    global username
     history = history or []
 
     intro = ""
