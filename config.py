@@ -23,7 +23,8 @@ config = {
     "mode":TORCH,
     "runtimedtype":torch.bfloat16,
     "useGPU":torch.cuda.is_available(),
-    "dtype":torch.bfloat16
+    "dtype":torch.bfloat16,
+    "useLogFix":False # When enabled, use BlinkDLs version of the att.
 }
 
 title = "RWKV-4 (7B Instruct v2)"
