@@ -1,5 +1,5 @@
 transformers
 torch
 inquirer
-rwkvstic>=0.1.6
+rwkvstic>=0.1.7
 scipy
