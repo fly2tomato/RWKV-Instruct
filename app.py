@@ -88,7 +88,9 @@ def infer(
     if (mode == "Q/A"):
         prompt = f"\nQ: {prompt}\n\nA:"
     if (mode == "ELDR"):
-        prompt = f"\n{prompt}\n\nExpert Long Detailed Response:"
+        prompt = f"\n{prompt}\n\nExpert Long Detailed Response:\n\nHi, thanks for reaching out, we would be happy to answer your question"
+    if (mode == "Expert"):
+        prompt = f"\n{prompt}\n\nExpert Full Response:\n\nHi, thanks for reaching out, we would be happy to answer your question.\n"
     if (mode == "EFA"):
         prompt = f'\nAsk Expert\n\nQuestion:\n{prompt}\n\nExpert Full Answer:\n'
     if (mode == "BFR"):
@@ -255,10 +257,10 @@ iface = gr.Interface(
     allow_flagging="never",
     inputs=[
         gr.Textbox(lines=20, label="Prompt"),  # prompt
-        gr.Radio(["generative", "Q/A","ELDR","EFR","BFR"],
-                 value="ELDR", label="Choose Mode"),
+        gr.Radio(["Freeform", "Q/A","ELDR","Expert","EFR","BFR"],
+                 value="Expert", label="Choose Mode"),
         gr.Slider(1, 512, value=40),  # max_tokens
-        gr.Slider(0.0, 5.0, value=1.0),  # temperature
+        gr.Slider(0.0, 5.0, value=0.9),  # temperature
         gr.Slider(0.0, 1.0, value=0.85),  # top_p
         gr.Textbox(lines=1, value="<|endoftext|>"),  # stop
         gr.Slider(-999, 0.0, value=0.0),  # end_adj
@@ -286,7 +288,7 @@ chatiface = gr.Interface(
 
 demo = gr.TabbedInterface(
 
-    [iface, chatiface], ["ELDR", "Chatbot"],
+    [iface, chatiface], ["Q/A", "Chatbot"],
     title=title,
 
 )
