@@ -19,7 +19,7 @@ quantized = {
 
 
 config = {
-    "path":"https://openmmlab-open.oss-cn-shanghai.aliyuncs.com/model-center/checkpoints/139430/RWKV-4-Pile-7B-Instruct-test2-20230209.pth",
+    "path":"https://openmmlab-open.oss-cn-shanghai-internal.aliyuncs.com/model-center/checkpoints/139430/RWKV-4-Pile-7B-Instruct-test2-20230209.pth",
     "mode":TORCH,
     "runtimedtype":torch.bfloat16,
     "useGPU":torch.cuda.is_available(),
